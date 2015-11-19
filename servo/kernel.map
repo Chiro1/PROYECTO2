@@ -1,0 +1,60 @@
+
+Discarded input sections
+
+ .bss           0x00000000        0x0 build/gpio.o
+ .ARM.attributes
+                0x00000000       0x14 build/gpio.o
+ .bss           0x00000000        0x0 build/main.o
+ .ARM.attributes
+                0x00000000       0x14 build/main.o
+ .bss           0x00000000        0x0 build/rutinas.o
+ .ARM.attributes
+                0x00000000       0x14 build/rutinas.o
+ .bss           0x00000000        0x0 build/systemTimer.o
+ .ARM.attributes
+                0x00000000       0x14 build/systemTimer.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/gpio.o
+LOAD build/main.o
+LOAD build/rutinas.o
+LOAD build/systemTimer.o
+
+.init           0x00000000        0x4
+ *(.init)
+ .init          0x00000000        0x4 build/main.o
+                0x00000000                _start
+
+.text           0x00008000      0x250
+ *(.text)
+ .text          0x00008000       0x98 build/gpio.o
+                0x00008000                GetGpioAddress
+                0x00008008                SetGpioFunction
+                0x00008058                SetGpio
+ .text          0x00008098      0x10c build/main.o
+ .text          0x000081a4       0x6c build/rutinas.o
+                0x000081a4                POSICION_0
+                0x000081b4                POSICION_180
+                0x000081c4                CONDICION
+                0x000081e0                POSICIONES
+ .text          0x00008210       0x40 build/systemTimer.o
+                0x00008210                GetSystemTimerBase
+                0x00008218                GetTimeStamp
+                0x00008228                Wait
+
+.data           0x00008250        0x0
+ *(.data)
+ .data          0x00008250        0x0 build/gpio.o
+ .data          0x00008250        0x0 build/main.o
+ .data          0x00008250        0x0 build/rutinas.o
+ .data          0x00008250        0x0 build/systemTimer.o
+
+/DISCARD/
+ *(*)
+OUTPUT(build/output.elf elf32-littlearm)
